@@ -1,4 +1,4 @@
-import pygame, sys, time, random
+import sys, time, random, pygame
 
 pygame.init()
 
@@ -7,6 +7,7 @@ play_surface = pygame.display.set_mode((600, 600))
 font = pygame.font.Font(None, 30)
 
 fps = pygame.time.Clock()
+
 
 def food():
     random_pos = random.randint(0, 49) * 10
@@ -21,6 +22,28 @@ def main():
     run = True
     food_pos = food()
     score = 0
+
+    def preguntas():
+        x = random.randint(0, 10)
+        y = random.randint(0, 10)
+        z = random.randint(1, 2)
+        respuesta1 = x + y
+        respuesta2 = x - y
+
+        if z == 1:
+            pregunta1 = int(input(str(x) + "+" + str(y) + "="))
+            if pregunta1 == respuesta1:
+                run = True
+                return print("CONGRATULATIONS"), run
+            else:
+                return print('YOU LOSE'), pygame.QUIT
+        else:
+            pregunta2 = int(input(str(x) + "-" + str(y) + "="))
+            if pregunta2 == respuesta2:
+                run = True
+                return print("CONGRATULATIONS"), run
+            else:
+                return print('YOU LOSE'), pygame.QUIT
 
     while run:
 
@@ -48,12 +71,12 @@ def main():
         snake_body.insert(0, list(snake_pos))
 
         if snake_pos == food_pos:
-           
+            run = False
+            preguntas()
+
             food_pos = food()
 
             score += 1
-
-
 
             print(score)
         else:
